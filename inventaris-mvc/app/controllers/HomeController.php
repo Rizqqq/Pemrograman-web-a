@@ -1,10 +1,13 @@
 <?php
 class HomeController extends Controller {
     public function index(): void {
-        // Mengirim data teks ke file View
+        // Panggil Model item 
+        $itemModel = new item();
+        $daftarBarang = $itemModel->all();
+
         $this->view('dashboard/index', [
-            'title' => 'Dashboard',
-            'pesan' => 'Hello World! MVC murni tanpa framework berhasil berjalan.'
+            'title' => 'Testing Dashboard',
+            'barang' => $daftarBarang
         ]);
     }
 }
