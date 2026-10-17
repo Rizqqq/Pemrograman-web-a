@@ -1,6 +1,9 @@
 <?php
 
 class ItemsController extends Controller {
+    public function __construct() {
+    $this->requireLogin();
+}
 
     // Normalisasi input form
     private function payload(array $input): array {

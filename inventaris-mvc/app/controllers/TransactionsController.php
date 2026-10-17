@@ -1,6 +1,9 @@
 <?php
 
 class TransactionsController extends Controller {
+    public function __construct() {
+    $this->requireLogin();
+}
 
     // 1. Tampilkan halaman riwayat transaksi
     public function index(): void {

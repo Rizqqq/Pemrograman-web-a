@@ -21,4 +21,23 @@ function take_flash(): ?array {
     $f = $_SESSION['flash'];
     unset($_SESSION['flash']);
     return $f;
+
+/**
+ * Data bersama yang dibutuhkan setiap view (layout & sidebar).
+ */
+function view_shared_data(): array {
+    return [
+        'flash'    => take_flash(),
+        'loggedIn' => Middleware::isLoggedIn(),
+        'user'     => Middleware::user(),
+        'current'  => strtolower(explode('/', trim($_GET['url'] ?? 'home', '/'))[0] ?? 'home'),
+        'navItems' => [
+            'home'         => ['label' => 'Dashboard', 'icon' => 'speedometer2', 'url' => ''],
+            'categories'   => ['label' => 'Kategori', 'icon' => 'tags', 'url' => 'categories'],
+            'items'        => ['label' => 'Barang', 'icon' => 'box', 'url' => 'items'],
+            'transactions' => ['label' => 'Transaksi', 'icon' => 'arrow-left-right', 'url' => 'transactions'],
+            'users'        => ['label' => 'Pengguna', 'icon' => 'people', 'url' => 'users'],
+        ],
+    ];
+}
 }
