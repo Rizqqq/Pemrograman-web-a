@@ -54,7 +54,7 @@ CREATE TABLE transactions (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- SEED DATA (DATA AWAL CONTOH)
--- Password untuk semua user adalah: 123456
+-- Password nya saya ganti
 INSERT INTO users (username, password, full_name, role) VALUES
 ('admin', '123aaa123', 'Administrator', 'admin'),
 ('staff', '321aaa321', 'Staff Gudang', 'staff');
