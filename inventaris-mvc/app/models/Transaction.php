@@ -52,7 +52,31 @@ class Transaction extends Model {
             if ($this->db->inTransaction()) {
                 $this->db->rollBack();
             }
+            Logger::error('Transaksi stok gagal', ['error' => $e->getMessage(), 'data' => $data]);
             return false;
         }
+    }
+    // --- TAMBAHAN UNTUK LANGKAH 12 ---
+
+    // 1. Ambil beberapa transaksi terbaru
+    public function recent(int $limit = 5): array {
+        $stmt = $this->db->prepare(
+            "SELECT t.*, i.name AS item_name, u.full_name AS user_name 
+             FROM transactions t 
+             LEFT JOIN items i ON t.item_id = i.id 
+             LEFT JOIN users u ON t.user_id = u.id 
+             ORDER BY t.created_at DESC 
+             LIMIT ?"
+        );
+        $stmt->bindValue(1, $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
+    // 2. Hitung jumlah transaksi yang terjadi khusus hari ini
+    public function todayCount(): int {
+        return (int) $this->db->query(
+            "SELECT COUNT(*) FROM transactions WHERE DATE(created_at) = CURDATE()"
+        )->fetchColumn();
     }
 }

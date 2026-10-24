@@ -75,4 +75,40 @@ class Item extends Model {
                 WHERE id = :id";
         return $this->db->prepare($sql)->execute($data);
     }
+    // --- TAMBAHAN UNTUK LANGKAH 12 ---
+
+    // 1. Hitung jumlah jenis barang
+    public function totalItems(): int {
+        return (int) $this->db->query("SELECT COUNT(*) FROM items")->fetchColumn();
+    }
+
+    // 2. Hitung total jumlah seluruh stok fisik barang
+    public function totalStock(): int {
+        return (int) $this->db->query("SELECT COALESCE(SUM(quantity), 0) FROM items")->fetchColumn();
+    }
+
+    // 3. Hitung total nilai aset (jumlah stok x harga barang)
+    public function totalAssetValue(): float {
+        return (float) $this->db->query("SELECT COALESCE(SUM(quantity * price), 0) FROM items")->fetchColumn();
+    }
+
+    // 4. Hitung berapa barang yang stoknya menipis (<= 5)
+    public function lowStockCount(int $threshold = 5): int {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM items WHERE quantity <= ?");
+        $stmt->execute([$threshold]);
+        return (int) $stmt->fetchColumn();
+    }
+
+    // 5. Ambil data barang yang stoknya menipis untuk tabel peringatan
+    public function lowStockItems(int $threshold = 5): array {
+        $stmt = $this->db->prepare(
+            "SELECT i.*, c.name AS category_name 
+             FROM items i 
+             LEFT JOIN categories c ON i.category_id = c.id 
+             WHERE i.quantity <= ? 
+             ORDER BY i.quantity ASC"
+        );
+        $stmt->execute([$threshold]);
+        return $stmt->fetchAll();
+    }
 }
