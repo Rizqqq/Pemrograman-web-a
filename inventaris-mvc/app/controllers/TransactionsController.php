@@ -39,7 +39,7 @@ class TransactionsController extends Controller {
         $userId = $_SESSION['user']['id'] ?? 1;
 
         $ok = $this->model('Transaction')->create([
-            'item_id'  => $itemId,
+            'item_id'  => $itemID,
             'user_id'  => $userId,
             'type'     => $type,
             'quantity' => $qty,

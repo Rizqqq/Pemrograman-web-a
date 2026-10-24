@@ -57,7 +57,9 @@ CREATE TABLE transactions (
 -- Password nya saya ganti
 INSERT INTO users (username, password, full_name, role) VALUES
 ('admin', '123aaa123', 'Administrator', 'admin'),
-('staff', '321aaa321', 'Staff Gudang', 'staff');
+('staff', '321aaa321', 'Staff Gudang', 'staff'),
+('Gaming111', '321aaa321', 'Galagoat', 'staff');
+
 
 INSERT INTO categories (name, description) VALUES
 ('Elektronik', 'Peralatan dan perangkat elektronik kantor'),
