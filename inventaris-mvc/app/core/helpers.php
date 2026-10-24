@@ -21,7 +21,7 @@ function take_flash(): ?array {
     $f = $_SESSION['flash'];
     unset($_SESSION['flash']);
     return $f;
-
+}
 /**
  * Data bersama yang dibutuhkan setiap view (layout & sidebar).
  */
@@ -39,5 +39,4 @@ function view_shared_data(): array {
             'users'        => ['label' => 'Pengguna', 'icon' => 'people', 'url' => 'users'],
         ],
     ];
-}
 }
